@@ -45,8 +45,8 @@ class Mailer {
 
 	/**
 	 * Returns a mail to sender
-	 * @param  string $subject 
-	 * @param  string $message 
+	 * @param  string $subject
+	 * @param  string $message
 	 */
 	public function confirmMail($subject, $message) {
 		$this->confirmMail = true;
@@ -66,8 +66,8 @@ class Mailer {
 	/**
 	 * Define the server mail
 	 * Default is the reciever address
-	 * @param string $string A valid email 
-	 *                       Should match your server, 
+	 * @param string $string A valid email
+	 *                       Should match your server,
 	 *                       ex noreply@MyServer.com
 	 */
 	public function setServerMail($string) {
@@ -81,8 +81,8 @@ class Mailer {
 	 * @param  string $sender  A valid E-mail address
 	 * @param  string $subject A valid subject
 	 * @param  string $message A valid message body
-	 * 
-	 * Returns one of the following SESSIONS 
+	 *
+	 * Returns one of the following SESSIONS
 	 * @return SESSION         $_SESSION['MailSuccess'] = true;
 	 * @return SESSION         $_SESSION['MailFailed'] = {reason}
 	 */

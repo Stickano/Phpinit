@@ -33,11 +33,11 @@ class Image {
 		list($org_w, $org_h) = getimagesize($path);
 		$ratio = $org_w / $org_h;
 
-		$this->thumb->readImage($path);    
+		$this->thumb->readImage($path);
 		$this->thumb->resizeImage($width, ($width/$ratio), Imagick::FILTER_LANCZOS, 1);
 		$this->thumb->writeImage($combined);
 		$this->thumb->clear();
-		$this->thumb->destroy(); 	
+		$this->thumb->destroy();
 	}
 }
 

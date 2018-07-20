@@ -35,7 +35,7 @@ final class SessionsHandler {
 
     /**
      * Returns the value of a session
-     * @param  string $name The name of the session 
+     * @param  string $name The name of the session
      * @return string       The value of the session
      */
     public function get($name){
@@ -46,7 +46,7 @@ final class SessionsHandler {
     /**
      * Checks if a session is set
      * @param  string $name The name of a session
-     * @return bool         TRUE/FALSE 
+     * @return bool         TRUE/FALSE
      */
     public function isset($name){
         return isset($_SESSION[$name]);

@@ -10,12 +10,12 @@ class Upload {
 	private $unique_filename;
 	private $return_on_success;
 	private $overwrite;
-	
+
 	private $no_file;
 	private $no_accepted_extension;
 	private $exceeded_filesize;
 	private $no_overwrite;
-	
+
 	private $max_file_size;
 	private $converter;
 
@@ -33,7 +33,7 @@ class Upload {
 		$this->unique_filename = false;
 		$this->return_on_success = true;
 		$this->overwrite = false;
-		
+
 		$this->no_file = "No file selected";
 		$this->no_accepted_extension = "File type not eligible";
 		$this->exceeded_filesize = "File size is to large";
@@ -45,7 +45,7 @@ class Upload {
 
 
 	/*
-	 *	Function to set the various return messages
+	 *	Methods to set the various return messages
 	 */
 	public function setNoFile($string) {
 		$this->no_file = $string;
@@ -64,7 +64,7 @@ class Upload {
 	}
 
 	/*
-	 *	Functions to set the various options for uploads
+	 *	Methods to set the various options for uploads
 	 */
 	public function required() {
 		$this->required = true;
@@ -105,7 +105,7 @@ class Upload {
 	 * @return string      Return errors/success (as defined)
 	 */
 	public function upload($dir) {
-	
+
 		# Confirm a file is selected
 		if($_FILES[$this->file_input]['size'] == 0){
 			if($this->required == true)
@@ -118,7 +118,7 @@ class Upload {
 		if(!is_dir($dir))
 			mkdir($dir);
 
-		# Make sure the path has a trailing / 
+		# Make sure the path has a trailing /
 		if(substr($dir, -1) != "/")
 			$dir .= "/";
 
@@ -132,7 +132,7 @@ class Upload {
 		# Confirm that it is an accepted file extension
 		if(!in_array($file_ext, $this->filetypes))
 			return $this->no_accepted_extension;
-		
+
 		# Confirm the file-size
 		if($_FILES[$this->file_input]['size'] > $this->max_file_size*$this->converter)
 			return $this->exceeded_filesize;
@@ -146,15 +146,15 @@ class Upload {
 				$all_images = false;
 		}
 
-		if($all_images == true 
-			&& !getimagesize($_FILES[$this->file_input]['tmp_name'])) 
+		if($all_images == true
+			&& !getimagesize($_FILES[$this->file_input]['tmp_name']))
 			return $this->no_accepted_extension;
 
 		# Set the name of the file (rename if selected)
 		if($this->rename == false){
 			$ext_info = pathinfo($_FILES[$this->file_input]['name']);
 			$filename = basename(
-						$_FILES[$this->file_input]['name'], 
+						$_FILES[$this->file_input]['name'],
 						'.'.$ext_info['extension']);
 			$filename = filter_var($filename,  FILTER_SANITIZE_STRING);
 		}else
@@ -169,7 +169,7 @@ class Upload {
 			$filename .= $dash.$random;
 		}
 
-		# Place the extension suffix in the name 
+		# Place the extension suffix in the name
 		$filename .= '.'.$file_ext;
 
 		# Check if the file already exists
@@ -183,8 +183,6 @@ class Upload {
 		}else {
 			if($this->return_on_success == true)
 				return $dir.$filename;
-			else 
-				return;
 		}
 	}
 

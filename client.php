@@ -10,7 +10,7 @@ class Client {
 	 * @param array  $multi   Available (host) languages
 	 * @param string $default The default (host) language
 	 */
-	public function __construct($multi=array(), $default='en') {
+	public function __construct(array $multi=array(), string $default='en') {
 		$this->default = $default;
 		$this->multi   = $multi;
 	}
@@ -24,19 +24,20 @@ class Client {
 
 		$lang = $this->default;
 
-		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-			$lang = substr($lang, 0, 2);
+        if(!isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+            return $lang;
 
-			# Return default language, if included in ISO array
-			if(!empty($this->multi)){
-				foreach ($this->multi as $iso) {
-					if($iso == $lang)
-						return $iso;
-				}
+		$lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+		$lang = substr($lang, 0, 2);
+
+		# Return default language, if included in ISO array
+		if(!empty($this->multi)){
+			foreach ($this->multi as $iso) {
+				if($iso == $lang)
+					return $iso;
 			}
-			return $lang;
 		}
+
 		return $lang;
 	}
 
@@ -72,6 +73,28 @@ class Client {
             $qs = "?".$_SERVER['QUERY_STRING'];
         $url = $_SERVER['PHP_SELF'].$qs;
         return $url;
+    }
+
+    /**
+     * Gather client information.
+     * This only gathers a few key values; Browser, platform & device
+     *
+     * This method requires you to download
+     * the browscap file: http://browscap.org/
+     * and define its location in the php.ini file.
+     * Since we are only requesting a few data values,
+     * the lite browscap file is sufficient.
+     * @return array   Browser, system & device information
+     */
+    public function browscap() {
+        $browser = get_browser(null, true);
+        $data    = array();
+
+        $data['browser'] = $browser['browser']." ".$browser['version'];
+        $data['system']  = $browser['platform'];
+        $data['device']  = $browser['device_type'];
+
+        return $data;
     }
 }
 

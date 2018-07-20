@@ -1,19 +1,8 @@
 <?php
 
-class ArrayHandler{
+class ArraySearch{
 
-    public function __construct(){
-    }
-
-    /**
-     * Reads through an array and returns the output nicely
-     * @param  array  $array The array to iterate through
-     * @return [type]        [description]
-     */
-    public function read(array $array){
-        $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($array));
-        return '<pre>'.var_dump($it->getArrayCopy()).'</pre>';
-    }
+    public function __construct(){}
 
     /**
      * Searches an multidimensional array
@@ -30,7 +19,7 @@ class ArrayHandler{
     }
 
     private function search_r($array, $key, $value, &$result){
-        if (!is_array($array)) 
+        if (!is_array($array))
             return;
 
         if (isset($array[$key]) && $array[$key] == $value)

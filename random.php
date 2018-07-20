@@ -1,5 +1,5 @@
 <?php
-	
+
 class Random {
 
 	private $string;

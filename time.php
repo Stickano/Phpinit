@@ -32,7 +32,7 @@ class Time {
             return substr($date, 6, 4);
         if($val == "time")
             return substr($date, -5);
-        
+
         return $date;
     }
 

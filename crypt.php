@@ -19,8 +19,8 @@ class Crypto {
 	 * @param string $hash   A valid hashing method
 	 * @param string $format 'raw', 'b64' or 'hex'
 	 */
-	public function __construct($cipher='aes-256-ctr', $hash ='sha256', $format ='b64'){
-		
+	public function __construct(string $cipher='aes-256-ctr', string $hash ='sha256', string $format ='b64'){
+
 		$format = strtolower($format);
 		if($format == 'raw')
 			$this->format = 0;
@@ -33,24 +33,30 @@ class Crypto {
 		$this->hash = $hash;
 	}
 
+	/**
+	 * Returns the current settings.
+	 * Used during testing
+	 * @return string Format, Cipher and Hash setting
+	 */
 	public function __toString(){
-		return  "[Format: ".$this->format."] 
-				[Cipher: ".$this->cipher."]
-				[Hash: ".$this->hash."]";
+		return  "[Format: ".$this->format."]
+				 [Cipher: ".$this->cipher."]
+				 [Hash: ".$this->hash."]";
 	}
-
 
 	/**
 	 * Returns available cipher methods
+	 * TODO: this needs refactoring
 	 */
 	public function GetCiphers() {
 		foreach (openssl_get_cipher_methods() as $cipher) {
 			echo $cipher.'<br>';
 		}
 	}
-	
+
 	/**
 	 * Returns available hashing algorithms
+	 * TODO: this needs refactoring
 	 */
 	public function GetHashes() {
 		foreach (openssl_get_md_methods() as $hash) {
@@ -65,9 +71,10 @@ class Crypto {
 	 * @param  string $key    Encryption key
 	 * @return string         The encrypted string
 	 */
-	public function encrypt($string, $key) {
+	public function encrypt(string $string, string $key) {
 
 		# Confirm the Cipher and Hash methods are available
+		# TODO: Refactor here as well
 		if(!in_array($this->cipher, openssl_get_cipher_methods(true)))
 			return "Unknown cipher! Available ciphers are;<br>".GetCiphers();
 
@@ -109,7 +116,7 @@ class Crypto {
 	 * @param  string $key    The key to Decrypt the message with
 	 * @return string         Returns the decrypted message
 	 */
-	public function decrypt($string, $key) {
+	public function decrypt(string $string, string $key) {
 
 		# Format
 		if($this->format == 1)
@@ -128,7 +135,7 @@ class Crypto {
 
 		# Hash the key
 		$keyhash = openssl_digest($key, $this->hash, true);
-		
+
 		# Decrypt
 		$decrypt = openssl_decrypt($string, $this->cipher, $keyhash, OPENSSL_RAW_DATA, $byte);
 

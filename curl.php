@@ -33,7 +33,7 @@ class Curl {
     }
 
     /**
-     * If you're doing a POST request instead of GET
+     * If you're doing a POST requests
      * @param  array  $data POST values
      * @return              Sets the $data variable and holds the data for execution
      */
@@ -43,6 +43,11 @@ class Curl {
         $this->request = "POST";
     }
 
+    /**
+     * If you're doing PUT requests
+     * @param  array  $data PUT values
+     * @return             Sets the $data variable and holds the data for execution
+     */
     public function put(array $data){
         $data = json_encode($data);
         $this->data = $data;
