@@ -1,5 +1,5 @@
 # Phpinit
-PHPinit is a handful of OOP models that can be easily integrated to your web-project for extended functionality. Now I will probably be beaten for calling this OOP, cause it doesn't follow the OOP standard per se. OOP often represent Objects from the real world - Or data members - whereas these models is more function/method based. Resource models if you like. 
+PHPinit is a handful of OOP models that can be easily integrated to your web-project for extended functionality. Now I will probably be beaten for calling this OOP, cause it doesn't follow the OOP standard per se. OOP often represent Objects from the real world - Or data members - whereas these models is more function/method based. Resource models if you like.
 
 &nbsp;
 
@@ -17,14 +17,17 @@ Below you will find a quick introduction to each individual tools.
 4. [Crud](#crud)
 5. [Crypto](#crypto)
 6. [Curl](#curl)
+7. [Database Builder](#database-builder)
 7. [Dir](#dir)
 8. [Image](#image)
 9. [Login](#login)
 10. [Mailer](#mailer)
+11. [Open Weather Map](#open-weather-map)
 11. [Random](#random)
 12. [Sanitizer](#sanitizer)
 13. [Sftp](#sftp)
 14. [Singleton](#singleton)
+15. [String Handler](#string-handler)
 15. [Time](#time)
 16. [Tls](#tls)
 17. [Umoji](#umoji)
@@ -44,7 +47,7 @@ Get client IP, browser language and current URL.
 &nbsp;
 
 ### Connection
-An empty connection model. 
+An empty connection model.
 
 &nbsp;
 
@@ -63,28 +66,38 @@ Make Curl requests to your server. PUT/POST Json Encode/Decode requests.
 
 &nbsp;
 
+### Database Builder
+Create/drop/check databases, tables and rows.
+
+&nbsp;
+
 ### Dir
-Scan dir (ls) and recursively remove folders and content. 
+Scan dir (ls) and recursively remove folders and content.
 
 &nbsp;
 
 ### Image
-Create thumbnails with ease. 
+Create thumbnails with ease.
 
 &nbsp;
 
 ### Login
-Easy login/logout integration. 
+Easy login/logout integration.
 
 &nbsp;
 
 ### Mailer
-Sends E-mails. 
+Sends E-mails.
+
+&nbsp;
+
+### Open Weather Map
+Get the weather details from OpenWeatherMap's API.
 
 &nbsp;
 
 ### Random
-Create random strings. 
+Create random strings.
 
 &nbsp;
 
@@ -100,6 +113,11 @@ Secure FTP. This requires an additional module to be installed (php-ssh2).
 
 ### Singleton
 An empty, ready to use Singleton. A Singleton will only be loaded once.
+
+&nbsp;
+
+### String Handler
+Search and Replace functions - Encapsulate a string section inside an element i.e.
 
 &nbsp;
 
@@ -119,7 +137,7 @@ Unicode emojis.
 &nbsp;
 
 ### Upload
-Easy to integrate upload method. 
+Easy to integrate upload method.
 
 &nbsp;
 
