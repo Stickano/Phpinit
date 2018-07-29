@@ -24,23 +24,23 @@ class Upload {
 	 * @param string $input_file Name of the file-element
 	 * @param array  $filetypes  Accepted file-types
 	 */
-	public function __construct($input_file, $filetypes =array()){
-		$this->file_input = $input_file;
-		$this->filetypes = $filetypes;
+	public function __construct($input_file, $filetypes=array()){
+		$this->file_input            = $input_file;
+		$this->filetypes             = $filetypes;
 
-		$this->rename = false;
-		$this->required = false;
-		$this->unique_filename = false;
-		$this->return_on_success = true;
-		$this->overwrite = false;
+		$this->rename                = false;
+		$this->required              = false;
+		$this->unique_filename       = false;
+		$this->return_on_success     = true;
+		$this->overwrite             = false;
 
-		$this->no_file = "No file selected";
+		$this->no_file               = "No file selected";
 		$this->no_accepted_extension = "File type not eligible";
-		$this->exceeded_filesize = "File size is to large";
-		$this->no_overwrite = "File already exists";
+		$this->exceeded_filesize     = "File size is to large";
+		$this->no_overwrite          = "File already exists";
 
-		$this->max_file_size = 2;
-		$this->converter = 1048576;
+		$this->max_file_size         = 2;
+		$this->converter             = 1048576;
 	}
 
 
@@ -78,10 +78,6 @@ class Upload {
 		$this->unique_filename = true;
 	}
 
-	public function noReturn() {
-		$this->return_on_success = false;
-	}
-
 	public function overwrite() {
 		$this->overwrite = true;
 	}
@@ -109,7 +105,7 @@ class Upload {
 		# Confirm a file is selected
 		if($_FILES[$this->file_input]['size'] == 0){
 			if($this->required == true)
-				return $this->no_file;
+				throw new Exception($this->no_file);
 			else
 				return;
 		}
@@ -131,11 +127,11 @@ class Upload {
 
 		# Confirm that it is an accepted file extension
 		if(!in_array($file_ext, $this->filetypes))
-			return $this->no_accepted_extension;
+			throw new Exception($this->no_accepted_extension);
 
 		# Confirm the file-size
 		if($_FILES[$this->file_input]['size'] > $this->max_file_size*$this->converter)
-			return $this->exceeded_filesize;
+			throw new Exception($this->exceeded_filesize);
 
 		# If only images is allowed as file-types,
 		# 	perform an additional security check
@@ -148,7 +144,7 @@ class Upload {
 
 		if($all_images == true
 			&& !getimagesize($_FILES[$this->file_input]['tmp_name']))
-			return $this->no_accepted_extension;
+			throw new Exception($this->no_accepted_extension);
 
 		# Set the name of the file (rename if selected)
 		if($this->rename == false){
@@ -174,16 +170,14 @@ class Upload {
 
 		# Check if the file already exists
 		if(file_exists($dir.$filename) && $this->overwrite == false)
-			return $this->no_overwrite;
+			throw new Exception($this->no_overwrite);
 
 		# Transfer file
 		if(!move_uploaded_file(
-			$_FILES[$this->file_input]['tmp_name'], $dir.$filename)) {
-			return $_FILES[$this->file_input]['error'];
-		}else {
-			if($this->return_on_success == true)
-				return $dir.$filename;
-		}
+			$_FILES[$this->file_input]['tmp_name'], $dir.$filename))
+			throw new Exception($_FILES[$this->file_input]['error']);
+
+		return $dir.$filename;
 	}
 
 }
