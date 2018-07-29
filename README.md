@@ -12,27 +12,27 @@ Below you will find a quick introduction to each individual tools.
 
 ## Table of Content
 1. [Base64](#base64)
-2. [Client](#client)
-3. [Connection](#connection)
-4. [Crud](#crud)
-5. [Crypto](#crypto)
-6. [Curl](#curl)
-7. [Database Builder](#database-builder)
-7. [Dir](#dir)
-8. [Image](#image)
-9. [Login](#login)
-10. [Mailer](#mailer)
-11. [Open Weather Map](#open-weather-map)
-11. [Random](#random)
-12. [Sanitizer](#sanitizer)
-13. [Sftp](#sftp)
-14. [Singleton](#singleton)
-15. [String Handler](#string-handler)
-15. [Time](#time)
-16. [Tls](#tls)
-17. [Umoji](#umoji)
-18. [Upload](#upload)
-19. [Validators](#validators)
+1. [Client](#client)
+1. [Connection](#connection)
+1. [Crud](#crud)
+1. [Crypto](#crypto)
+1. [Curl](#curl)
+1. [Database Builder](#database-builder)
+1. [Dir](#dir)
+1. [Image](#image)
+1. [Login](#login)
+1. [Mailer](#mailer)
+1. [Open Weather Map](#open-weather-map)
+1. [Random](#random)
+1. [Sanitizer](#sanitizer)
+1. [Search and Replace](#search-and-replace)
+1. [Sftp](#sftp)
+1. [Singleton](#singleton)
+1. [Time](#time)
+1. [Tls](#tls)
+1. [Umoji](#umoji)
+1. [Upload](#upload)
+1. [Validators](#validators)
 
 &nbsp;
 
@@ -106,6 +106,11 @@ Sanitize your strings. Be aware that this should not be used for sanitizing data
 
 &nbsp;
 
+### Search and Replace
+Search and Replace functions - Encapsulate a string section inside an element i.e.
+
+&nbsp;
+
 ### Sftp
 Secure FTP. This requires an additional module to be installed (php-ssh2).
 
@@ -113,11 +118,6 @@ Secure FTP. This requires an additional module to be installed (php-ssh2).
 
 ### Singleton
 An empty, ready to use Singleton. A Singleton will only be loaded once.
-
-&nbsp;
-
-### String Handler
-Search and Replace functions - Encapsulate a string section inside an element i.e.
 
 &nbsp;
 
