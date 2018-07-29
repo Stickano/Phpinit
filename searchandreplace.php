@@ -1,6 +1,6 @@
 <?php
 
-class StringHandler {
+class SearchAndReplace {
 
     /**
      * Searches through a string for certain keywords
@@ -10,7 +10,7 @@ class StringHandler {
      * @return string|array        If $replaceWith is not provided, an array with the places is returned
      *                             Else the formatted text, from replace(), is returned
      */
-    public function multiSearch(string $content, string $search, array $replaceWith=null){
+    public function encapsulateSearch(string $content, string $search, array $replaceWith=null){
         $br         = 0;
         $arrayCount = 0;
         $lastPos    = -1;
@@ -32,7 +32,7 @@ class StringHandler {
         }
 
         if(is_array($replaceWith) && count($replaceWith) == 2)
-            return self::multiReplace($content, $positions, $replaceWith);
+            return self::multiReplace($content, $positions, $replaceWith, strlen(htmlspecialchars($search)));
         else
             return $positions;
     }
@@ -44,7 +44,7 @@ class StringHandler {
      * @param  array  $replaceWith Replace with this content (startContent => stopContent)
      * @return string              The formatted text
      */
-    private function multiReplace(string $content, array $positions, array $replaceWith){
+    private function multiReplace(string $content, array $positions, array $replaceWith, int $replaceLength){
         $txt = $content;
         $result = array_reverse($positions, true);
         foreach ($result as $key) {
@@ -59,7 +59,7 @@ class StringHandler {
                 else
                     $replace = $replaceWith[1];
 
-                $txt = substr_replace($txt, $replace, $key[$br], 5);
+                $txt = substr_replace($txt, $replace, $key[$br], $replaceLength);
                 $br++;
             }
         }
@@ -76,11 +76,16 @@ class StringHandler {
      * @return string|array             The formatted string (replace), or an array of positions
      */
     public function search(string $content, string $search, string $replaceWith=null){
-        $br         = 0;
-        $positions  = array();
-        $strLen = strlen(htmlspecialchars($search));
-        while(($pos = strpos($content,"\r\n",$br)) !== false) {
-            $positions[] = $pos;
+        $br        = 0;
+        $lastPos   = -1;
+        $positions = array();
+        $strLen    = strlen(htmlspecialchars($search));
+
+        while(($pos = strpos($content,$search,$br)) !== false) {
+            if ($pos != $lastPos) {
+                $positions[] = $pos;
+                $lastPos     = $pos;
+            }
             $br++;
         }
 

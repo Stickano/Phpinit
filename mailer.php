@@ -17,14 +17,16 @@ class Mailer {
 	 * @param string $reciever A valid Email
 	 */
 	public function __construct($reciever) {
+
 		if(!filter_var($reciever, FILTER_VALIDATE_EMAIL))
 			throw new Exception('Not a valid Email: ' . $reciever);
-		$this->reciever = $reciever;
-		$this->serverMail = $this->reciever;
+
+		$this->reciever    = $reciever;
+		$this->serverMail  = $this->reciever;
 		$this->confirmMail = false;
 
-		$this->noValidMail = "Fill out all inputs.";
-		$this->missingFields = "Use a valid Email.";
+		$this->noValidMail   = "Use a valid Email.";
+		$this->missingFields = "Fill out all inputs.";
 	}
 
 	/**
@@ -112,7 +114,7 @@ class Mailer {
 		$from = $this->serverMail;
 		$subject = $subject;
 		$headers = 'From: '.$from.'\r\n' .
-					'Content-type: text/plain; charset=utf-8'.'\r\n';
+					'Content-type: text/plain; charset=utf-8'.'\n';
 		$message = 'Reply to this Email: '.$sender.'\n'.nl2br($message);
 		mail($to, $subject, $message, $headers);
 
@@ -121,8 +123,8 @@ class Mailer {
 			$to = $sender;
 			$from = $this->serverMail;
 			$subject = $this->confirmSub;
-			$headers = 'From: '.$from.'\r\n' .
-						'Content-type: text/plain; charset=utf-8'.'\r\n';
+			$headers = 'From: '.$from.'\n' .
+						'Content-type: text/plain; charset=utf-8'.'\n';
 			$message = nl2br($this->confirmBody);
 			mail($to, $subject, $message, $headers);
 		}

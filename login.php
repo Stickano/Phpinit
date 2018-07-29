@@ -9,30 +9,32 @@ class Login {
 
 	private $failed;
 	private $empty;
-	private $no_profile;
-	private $password_failed;
+	private $noProfile;
+	private $passwordFailed;
+
+	private $sessionName;
+	private $sessionValue;
 
 	/**
 	 * Constructor
 	 * @param connection $conn MySQLi connection object
 	 */
 	public function __construct(Connection $conn){
-		$this->conn = $conn;
-
-		$this->failed = 'Login failed';
-		$this->empty = $this->failed;
-		$this->no_profile = $this->failed;
-		$this->password_failed = $this->failed;
+		$this->conn           = $conn;
+		$this->failed         = 'Login failed';
+		$this->empty          = $this->failed;
+		$this->noProfile      = $this->failed;
+		$this->passwordFailed = $this->failed;
 	}
 
 	/**
 	 * Define the values for the User table in the DB
-	 * @param  strin $tableName   The name of the table
+	 * @param  string $tableName   The name of the table
 	 * @param  string $userRowName The name of the username row
 	 * @param  string $passRowName The name of the password row
 	 * @return Exception 	Throws exception if invalid
 	 */
-	public function defineDb($tableName, $userRowName, $passRowName) {
+	public function defineDb(string $tableName, string $userRowName, string $passRowName) {
 		$sql = "SELECT * FROM information_schema.COLUMNS
 				WHERE TABLE_SCHEMA='".$tableName."'
 				AND COLUMN_NAME='".$userRowName."'
@@ -41,15 +43,32 @@ class Login {
 		if(!mysqli_query($this->conn, $sql))
 			throw new Exception('The provided values does not match a valid table/rows');
 
-		$this->table = $tableName;
+		$this->table    = $tableName;
 		$this->unameRow = $userRowName;
 		$this->upassRow = $passRowName;
 	}
 
+	/**
+	 * This will set what the SESSION name and value should be,
+	 * once a user is successfully logged in.
+	 * @param  string $sessionName  The name of the session.
+	 * @param  string $sessionValue The value of the session.
+	 *                              This needs to correspond with a database row
+	 *                              in the user table.
+	 * @return                      Sets sessionName and sessionValue.
+	 */
+	public function defineSession(string $sessionName, string $sessionValue) {
+		if (empty($sessionName) || empty($sessionValue))
+			throw new Exception('Missing Session Name and/or Value.');
+
+		$this->sessionName  = $sessionName;
+		$this->sessionValue = $sessionValue;
+	}
+
 	/*
 	 * Methods to define the various failed return messages.
-	 * Be aware, if you define more that the Failed value,
-	 * 	you are leaving up a security vulnerbility by leaving
+	 * Be aware, if you define more than the Failed value,
+	 * 	you are leaving up a security vulnerability by giving
 	 * 	a clue to weather a email address or password is valid.
 	 */
 	public function setFailed($string) {
@@ -61,11 +80,11 @@ class Login {
 	}
 
 	public function setNoProfile($string) {
-		$this->no_profile = $string;
+		$this->noProfile = $string;
 	}
 
 	public function setPasswordFailed($string) {
-		$this->password_failed = $string;
+		$this->passwordFailed = $string;
 	}
 
 	/**
@@ -73,21 +92,33 @@ class Login {
 	 * @return  unsets 'loggedIn' session
 	 */
 	public function logout() {
-		if(isset($_SESSION['loggedIn']))
-			unset($_SESSION['loggedIn']);
+		if(isset($_SESSION[$this->sessionName]))
+			unset($_SESSION[$this->sessionName]);
 	}
 
 	/**
 	 * Login function
 	 * @param  string $username Username to match
-	 * @param  string $password Password (will be hased)
+	 * @param  string $password Password (will be hashed)
 	 * @return SESSION 		$_SESSION['loggedIn'] = id;
 	 */
-	public function login($username, $password){
+	public function login(string $username, string $password){
 
 		# Checks that the db connection has been defined
 		if(empty($this->table))
-			throw new Exception('Please define the database connection before using this function.');
+			throw new Exception('Please define the database connection before using this method (setting).');
+
+		# Check that a session name/value has been set
+		if (empty($this->sessionName) || empty($this->sessionValue))
+			throw new Exception('Please define the SESSION Name and Value (setting).');
+
+		# Check that the SESSION value row exists
+		$sql = "SELECT * FROM information_schema.COLUMNS
+				WHERE TABLE_SCHEMA='".$tableName."'
+				AND COLUMN_NAME='".$$this->sessionValue."'";
+
+		if(!mysqli_query($this->conn, $sql))
+			throw new Exception('The provided value for SESSION value does not match a table row. (setting)');
 
 		# Secure the inputs
 		$uname = mysqli_real_escape_string($this->conn, strtolower($username));
@@ -105,14 +136,14 @@ class Login {
 
 		# If the username was NOT found
 		if($num != true)
-			throw new Exception($this->no_profile);
+			throw new Exception($this->noProfile);
 
 		# Match the password
 		$result = mysqli_fetch_array($query);
 		if(!password_verify($upass, $result[$this->upassRow]))
-			throw new Exception($this->password_failed);
+			throw new Exception($this->passwordFailed);
 
-		$_SESSION['loggedIn'] = $result['id'];
+		$_SESSION[$this->sessionName] = $result[$this->sessionValue];
 	}
 }
 

@@ -30,7 +30,7 @@ class Crypto {
 			$this->format = 1;
 
 		$this->cipher = $cipher;
-		$this->hash = $hash;
+		$this->hash   = $hash;
 	}
 
 	/**

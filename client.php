@@ -2,27 +2,16 @@
 
 class Client {
 
-	private $default;
-	private $multi;
-
-	/**
-	 * Constructor
-	 * @param array  $multi   Available (host) languages
-	 * @param string $default The default (host) language
-	 */
-	public function __construct(array $multi=array(), string $default='en') {
-		$this->default = $default;
-		$this->multi   = $multi;
-	}
+	public function __construct() {}
 
 	/**
 	 * Return the clients browser language.
 	 * May be used to set a default language for the client.
 	 * @return string   Clients language/ according to availables
 	 */
-	public function lang(){
+	public function lang(array $multi=array(), string $default='en'){
 
-		$lang = $this->default;
+		$lang = $default;
 
         if(!isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
             return $lang;
@@ -31,8 +20,8 @@ class Client {
 		$lang = substr($lang, 0, 2);
 
 		# Return default language, if included in ISO array
-		if(!empty($this->multi)){
-			foreach ($this->multi as $iso) {
+		if(!empty($multi)){
+			foreach ($multi as $iso) {
 				if($iso == $lang)
 					return $iso;
 			}
@@ -64,10 +53,14 @@ class Client {
     }
 
     /**
-     * Returns the current URL address
-     * @return string URL
+     * Return either the current or previous URL
+     * @param  bool|boolean $previous True/False if you want previous URL
+     * @return string                 The URL
      */
-    public function getUrl(){
+    public function getUrl(bool $previous=false){
+        if ($previous && isset($_SERVER['HTTP_REFERER']))
+            return $_SERVER['HTTP_REFERER'];
+
         $qs = null;
         if(!empty($_SERVER['QUERY_STRING']))
             $qs = "?".$_SERVER['QUERY_STRING'];

@@ -1,6 +1,6 @@
 <?php
 
-class Security {
+class Tls {
 
 	private $host;
 	private $self;
@@ -15,14 +15,14 @@ class Security {
 
 		$this->qs = NULL;
         if(!empty($_SERVER['QUERY_STRING']))
-            $qs = "?".$_SERVER['QUERY_STRING'];
+            $this->qs = "?".$_SERVER['QUERY_STRING'];
 	}
 
 
 	/**
      * Makes sure a HTTPS connection is made
      */
-    public function SecureConnect() {
+    public function secureConnect() {
     	if(!isset($_SERVER['HTTPS']) && $_SERVER['SERVER_NAME'] != 'localhost'){
             echo'<script>window.location = "https://'.$this->host.$this->self.$this->qs.'";</script>';
             exit;

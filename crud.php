@@ -116,18 +116,32 @@ class Crud{
         }
 
         # Build the LIMIT clause
-        if($limit != null){
+        if($limit != null && is_array($limit)){
+
+            # Check that less than two values are passed
+            $limitCount = count($limit);
+            if($limitCount > 2)
+                throw new Exception("Error in LIMIT handling - pass an array of max 2 integers");
+
+            # Check second value (if any) is integer
+            if($limitCount == 2 && !is_numeric($limit[1]))
+                throw new Exception("Error in LIMIT handling - pass an integer value as second value");
 
             # Check that it's a integer value
-            if(!is_numeric($limit))
+            if(!is_numeric($limit[0]))
                 throw new Exception("Error in LIMIT handling - pass an integer value");
 
             # Check that it's a positive value
-            if($limit < 0)
+            if($limit[0] < 0)
                 throw new Exception("Error in LIMIT handling - pass a positive value");
 
+            # Offset
+            $offset = null;
+            if ($limitCount == 2)
+                $offset = ", ".$limit[1];
+
             # Add to the query string
-            $limit = "LIMIT ".$limit;
+            $limit = "LIMIT ".$limit[0].$offset;
         }
 
         # Build and run the query
@@ -153,7 +167,7 @@ class Crud{
     /**
      * Insert data to the db
      * @param  string $table  table to insert data
-     * @param  array  $data   row => value
+     * @param  array  $data   column => value
      * @return bool|string    True on succes/ SQL error on fail
      */
     public function create(string $table, array $data){
