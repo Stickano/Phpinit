@@ -6,7 +6,7 @@ PHPinit is a handful of OOP models that can be easily integrated to your web-pro
 ## Examples
 You can see the models in action on [PHPinit.com](http://phpinit.com)
 
-Below you will find a quick introduction to each individual tools.
+Below you will find a quick introduction to each individual model.
 
 &nbsp;
 
