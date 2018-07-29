@@ -1,4 +1,4 @@
-# Phpinit
+# PHPinit
 PHPinit is a handful of OOP models that can be easily integrated to your web-project for extended functionality. Now I will probably be beaten for calling this OOP, cause it doesn't follow the OOP standard per se. OOP often represent Objects from the real world - Or data members - whereas these models is more function/method based. Resource models if you like.
 
 &nbsp;
