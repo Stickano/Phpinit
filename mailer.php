@@ -113,9 +113,9 @@ class Mailer {
 		$to = $this->reciever;
 		$from = $this->serverMail;
 		$subject = $subject;
-		$headers = 'From: '.$from.'\r\n' .
-					'Content-type: text/plain; charset=utf-8'.'\n';
-		$message = 'Reply to this Email: '.$sender.'\n'.nl2br($message);
+		$headers = 'From: '.$from."\r\n" .
+					'Content-type: text/plain; charset=utf-8'."\r\n";
+		$message = 'Reply to this Email: '.$sender."\r\n".nl2br($message);
 		mail($to, $subject, $message, $headers);
 
 		# If chosen to send a confirm mail
@@ -123,8 +123,8 @@ class Mailer {
 			$to = $sender;
 			$from = $this->serverMail;
 			$subject = $this->confirmSub;
-			$headers = 'From: '.$from.'\n' .
-						'Content-type: text/plain; charset=utf-8'.'\n';
+			$headers = 'From: '.$from."\r\n" .
+						'Content-type: text/plain; charset=utf-8'."\r\n";
 			$message = nl2br($this->confirmBody);
 			mail($to, $subject, $message, $headers);
 		}
