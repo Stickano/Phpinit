@@ -34,7 +34,7 @@ class Login {
 	 * @param  string $passRowName The name of the password row
 	 * @return Exception 	Throws exception if invalid
 	 */
-	public function defineDb(string $tableName, string $userRowName, string $passRowName) {
+	public function defineDatabase(string $tableName, string $userRowName, string $passRowName) {
 		$sql = "SELECT * FROM information_schema.COLUMNS
 				WHERE TABLE_SCHEMA='".$tableName."'
 				AND COLUMN_NAME='".$userRowName."'
@@ -114,8 +114,8 @@ class Login {
 
 		# Check that the SESSION value row exists
 		$sql = "SELECT * FROM information_schema.COLUMNS
-				WHERE TABLE_SCHEMA='".$tableName."'
-				AND COLUMN_NAME='".$$this->sessionValue."'";
+				WHERE TABLE_SCHEMA='".$this->tableName."'
+				AND COLUMN_NAME='".$this->sessionValue."'";
 
 		if(!mysqli_query($this->conn, $sql))
 			throw new Exception('The provided value for SESSION value does not match a table row. (setting)');
