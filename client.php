@@ -87,6 +87,9 @@ class Client {
         $data['system']  = $browser['platform'];
         $data['device']  = $browser['device_type'];
 
+        if ($data['browser'] == " ")
+            $data['browser'] = null;
+
         return $data;
     }
 }
